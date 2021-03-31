@@ -1,18 +1,23 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import CommentBox from '../CommentBox';
+import Root from '../../Root'
 
 // console.log(wrapped.find("textarea").length);
 
 let wrapped;
 beforeEach(() => {
-    wrapped = mount(<CommentBox />);
+    wrapped = mount(
+    <Root>
+        <CommentBox />
+    </Root>
+    );
 });
 
 it('has a text area and a button', () => {
     // mount for full dom render
     expect(wrapped.find('textarea').length).toEqual(1);
-    expect(wrapped.find('button').length).toEqual(1);
+    expect(wrapped.find('button').length).toEqual(2);
 });
 
 // describe groups together tests with similarities that are not necessarily required in other tests
@@ -28,7 +33,7 @@ describe('the text area', ()=> {
 
         // Component automatically rerenders when setState is called so we want to mimic that behavior by forcing update
         // without this we won't get expected behavior because setState is actually asynchronous
-        wrapped.update()
+        wrapped.update();
     });
 
     it('has a text area that users can type in', ()=>{
@@ -45,5 +50,5 @@ describe('the text area', ()=> {
 
 // clean up - when using mount for full dom render, make sure to clean up so it doesn't pollute other tests
 afterEach(()=>{
-    wrapped.unmount()
+    wrapped.unmount();
 })
